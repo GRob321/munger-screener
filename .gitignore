@@ -1,0 +1,33 @@
+# Cache files
+.fundamentals_cache.json
+
+# Excel exports
+munger_screen_*.xlsx
+
+# Markdown exports
+quality_screen_results.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/
+.cache/

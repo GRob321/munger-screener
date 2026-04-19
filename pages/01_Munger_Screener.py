@@ -13,7 +13,6 @@ from screener import (
     quality_score,
     fetch_prices_and_ma,
     fetch_fundamentals,
-    get_sp500_tickers,
     QUALITY_FILTERS,
     FINANCIAL_SECTORS,
     load_cache,
@@ -25,6 +24,17 @@ st.set_page_config(
     page_icon="🔍",
     layout="wide",
 )
+
+# Load cached S&P 500 constituents
+@st.cache_data
+def load_sp500_constituents():
+    """Load cached S&P 500 list from JSON file."""
+    constituents_path = Path(__file__).parent.parent / "sp500_constituents.json"
+    with open(constituents_path) as f:
+        data = json.load(f)
+    return data["tickers"], data["sectors"]
+
+import json
 
 st.title("🔍 Munger Quality Screener")
 st.markdown("""
@@ -194,8 +204,8 @@ with tab_screen:
         else:
             cache_status.warning("⚠️ Fetching fresh data from Yahoo Finance (~90 seconds)")
 
-        with st.spinner("Fetching S&P 500 universe..."):
-            tickers, wiki_sectors = get_sp500_tickers()
+        with st.spinner("Loading S&P 500 constituents..."):
+            tickers, wiki_sectors = load_sp500_constituents()
 
         with st.spinner("Applying quality filters..."):
             fundamentals = fetch_fundamentals(tickers, force_refresh=force_refresh)

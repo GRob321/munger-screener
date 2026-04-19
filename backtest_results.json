@@ -1,0 +1,24 @@
+{
+  "strategy": {
+    "label": "Munger 200-WMA Strategy",
+    "n_years": 21.2,
+    "total_invested": 13000.0,
+    "final_value": 886805.0,
+    "total_return": 6721.6,
+    "cagr": 23.03,
+    "max_drawdown": -46.72,
+    "sharpe": 0.753
+  },
+  "benchmark_spy_matched": {
+    "label": "SPY (Capital-Matched)",
+    "n_years": 21.2,
+    "total_invested": 13000.0,
+    "final_value": 107927.0,
+    "total_return": 730.2,
+    "cagr": 11.38,
+    "max_drawdown": -54.61,
+    "sharpe": 0.494
+  },
+  "n_signals": 13,
+  "sensitivity": []
+}

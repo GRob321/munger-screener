@@ -1,5 +1,6 @@
 import streamlit as st
 import sys
+import json
 from pathlib import Path
 import pandas as pd
 from datetime import datetime
@@ -33,8 +34,6 @@ def load_sp500_constituents():
     with open(constituents_path) as f:
         data = json.load(f)
     return data["tickers"], data["sectors"]
-
-import json
 
 st.title("🔍 Munger Quality Screener")
 st.markdown("""

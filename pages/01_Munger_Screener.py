@@ -114,7 +114,7 @@ with tab_single:
         ticker_input = ticker_map.get(selected, "") if selected else ""
 
     with col2:
-        analyse_btn = st.button("Analyse", use_container_width=True)
+        analyse_btn = st.button("Analyze", use_container_width=True)
 
     if analyse_btn and ticker_input:
         with st.spinner(f"Fetching data for {ticker_input}..."):

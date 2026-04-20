@@ -39,8 +39,13 @@ def load_sp500_constituents():
 @st.cache_data
 def build_company_dropdown_options():
     """Build searchable dropdown options with company names."""
-    fundamentals = load_cache()
     tickers, _ = load_sp500_constituents()
+
+    # Load cached fundamentals, or fetch them if not available
+    fundamentals = load_cache()
+    if not fundamentals:
+        with st.spinner("Loading company names (this may take a minute)..."):
+            fundamentals = fetch_fundamentals(tickers, force_refresh=False)
 
     options = []
     for ticker in sorted(tickers):

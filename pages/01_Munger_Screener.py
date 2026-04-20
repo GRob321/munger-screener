@@ -47,10 +47,17 @@ def build_company_dropdown_mapping():
         with st.spinner("Loading company names (this may take a minute)..."):
             fundamentals = fetch_fundamentals(tickers, force_refresh=False)
 
+    # Check for missing names and fetch them if needed
+    missing_tickers = [t for t in tickers if t not in fundamentals or not fundamentals[t].get("name")]
+    if missing_tickers:
+        with st.spinner(f"Fetching {len(missing_tickers)} missing company names..."):
+            missing_data = fetch_fundamentals(missing_tickers, force_refresh=False)
+            fundamentals.update(missing_data)
+
     ticker_to_name = {}  # maps ticker -> best name
     for ticker in tickers:
-        if ticker in fundamentals:
-            name = fundamentals[ticker].get("name", ticker)
+        if ticker in fundamentals and fundamentals[ticker].get("name"):
+            name = fundamentals[ticker].get("name")
         else:
             name = ticker
 

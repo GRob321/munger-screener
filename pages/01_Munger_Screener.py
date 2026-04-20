@@ -47,13 +47,25 @@ def build_company_dropdown_mapping():
         with st.spinner("Loading company names (this may take a minute)..."):
             fundamentals = fetch_fundamentals(tickers, force_refresh=False)
 
-    ticker_map = {}  # maps display_name -> ticker
-    for ticker in sorted(tickers):
+    ticker_to_name = {}  # maps ticker -> best name
+    for ticker in tickers:
         if ticker in fundamentals:
             name = fundamentals[ticker].get("name", ticker)
         else:
             name = ticker
-        # Format: "Company Name (TICKER)"
+
+        # Prefer shorter, cleaner names; keep first occurrence for same ticker
+        if ticker not in ticker_to_name:
+            ticker_to_name[ticker] = name
+        else:
+            # Keep the shorter name (usually cleaner)
+            if len(name) < len(ticker_to_name[ticker]):
+                ticker_to_name[ticker] = name
+
+    # Build display map: display_name -> ticker
+    ticker_map = {}
+    for ticker in sorted(ticker_to_name.keys()):
+        name = ticker_to_name[ticker]
         display_name = f"{name} ({ticker})"
         ticker_map[display_name] = ticker
 

@@ -35,6 +35,24 @@ def load_sp500_constituents():
         data = json.load(f)
     return data["tickers"], data["sectors"]
 
+# Build company name to ticker mapping
+@st.cache_data
+def build_company_dropdown_options():
+    """Build searchable dropdown options with company names."""
+    fundamentals = load_cache()
+    tickers, _ = load_sp500_constituents()
+
+    options = []
+    for ticker in sorted(tickers):
+        if ticker in fundamentals:
+            name = fundamentals[ticker].get("name", ticker)
+        else:
+            name = ticker
+        # Format: "Company Name (TICKER)"
+        options.append(f"{name} ({ticker})")
+
+    return sorted(options)
+
 st.title("🔍 Munger Quality Screener")
 st.markdown("""
 Find high-quality stocks at or near their 200-week moving averages.
@@ -59,11 +77,16 @@ with tab_single:
     col1, col2 = st.columns([3, 1])
 
     with col1:
-        ticker_input = st.text_input(
-            "Enter ticker symbol",
-            placeholder="e.g., MSFT, NKE, AAPL",
-            label_visibility="collapsed"
-        ).upper()
+        options = build_company_dropdown_options()
+        selected = st.selectbox(
+            "Search by company name or ticker",
+            options,
+            placeholder="e.g., Microsoft (MSFT) or Apple (AAPL)",
+            label_visibility="collapsed",
+            index=None
+        )
+        # Extract ticker from selection: "Company Name (TICKER)" -> "TICKER"
+        ticker_input = selected.split("(")[-1].rstrip(")") if selected else ""
 
     with col2:
         analyse_btn = st.button("Analyse", use_container_width=True)

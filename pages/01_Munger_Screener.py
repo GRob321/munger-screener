@@ -37,7 +37,7 @@ def load_sp500_constituents():
 
 # Build company name to ticker mapping
 @st.cache_data
-def build_company_dropdown_options():
+def build_company_dropdown_mapping():
     """Build searchable dropdown options with company names."""
     tickers, _ = load_sp500_constituents()
 
@@ -47,16 +47,17 @@ def build_company_dropdown_options():
         with st.spinner("Loading company names (this may take a minute)..."):
             fundamentals = fetch_fundamentals(tickers, force_refresh=False)
 
-    options = []
+    ticker_map = {}  # maps display_name -> ticker
     for ticker in sorted(tickers):
         if ticker in fundamentals:
             name = fundamentals[ticker].get("name", ticker)
         else:
             name = ticker
         # Format: "Company Name (TICKER)"
-        options.append(f"{name} ({ticker})")
+        display_name = f"{name} ({ticker})"
+        ticker_map[display_name] = ticker
 
-    return sorted(options)
+    return ticker_map
 
 st.title("🔍 Munger Quality Screener")
 st.markdown("""
@@ -82,16 +83,16 @@ with tab_single:
     col1, col2 = st.columns([3, 1])
 
     with col1:
-        options = build_company_dropdown_options()
+        ticker_map = build_company_dropdown_mapping()
         selected = st.selectbox(
             "Search by company name or ticker",
-            options,
+            list(ticker_map.keys()),
             placeholder="e.g., Microsoft (MSFT) or Apple (AAPL)",
             label_visibility="collapsed",
             index=None
         )
-        # Extract ticker from selection: "Company Name (TICKER)" -> "TICKER"
-        ticker_input = selected.split("(")[-1].rstrip(")") if selected else ""
+        # Get ticker from mapping
+        ticker_input = ticker_map.get(selected, "") if selected else ""
 
     with col2:
         analyse_btn = st.button("Analyse", use_container_width=True)

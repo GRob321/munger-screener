@@ -19,6 +19,7 @@ from screener import (
     load_cache,
     save_cache,
 )
+from prompt_templates import build_prompt_context, get_holistic_prompts, get_targeted_prompts
 
 st.set_page_config(
     page_title="Munger Screener",
@@ -228,6 +229,44 @@ with tab_single:
                     else:
                         failed = 5 - score
                         st.warning(f"❌ **FAILS quality criteria** ({failed} criterion/a not met)")
+
+                    # ── Investment Analysis Prompts ───────────────────────────
+                    st.markdown("---")
+                    st.markdown("### 📋 Investment Analysis Prompts")
+                    st.caption(f"Pre-filled with {name} data — copy and paste into Claude, Gemini, or ChatGPT.")
+
+                    # Build prompt context
+                    prompt_ctx = build_prompt_context(
+                        ticker=ticker_input,
+                        name=name,
+                        sector=sector,
+                        price=ma["price"],
+                        ma200w=ma["ma200w"],
+                        pct_above=pct,
+                        zone=zone,
+                        score=score,
+                        roe=detail["roe"] or 0,
+                        margin=detail["margin"] or 0,
+                        market_cap=fund.get("market_cap"),
+                        de_ratio=detail["de_ratio"],
+                    )
+
+                    # Get prompts
+                    holistic_prompts = get_holistic_prompts(prompt_ctx)
+                    targeted_prompts = get_targeted_prompts(prompt_ctx)
+
+                    # Display in tabs
+                    prompt_tab1, prompt_tab2 = st.tabs(["🎯 Holistic Stacks", "🔍 Targeted Prompts"])
+
+                    with prompt_tab1:
+                        for title, prompt_text in holistic_prompts:
+                            with st.expander(title):
+                                st.code(prompt_text, language="")
+
+                    with prompt_tab2:
+                        for title, prompt_text in targeted_prompts:
+                            with st.expander(title):
+                                st.code(prompt_text, language="")
 
 
 # ─────────────────────────────────────────────────────────────────────────────

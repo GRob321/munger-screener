@@ -4,7 +4,7 @@ from pathlib import Path
 
 st.set_page_config(
     page_title="Munger 200-Week MA System",
-    page_icon="📈",
+    page_icon="🔍",
     layout="wide",
     initial_sidebar_state="expanded"
 )

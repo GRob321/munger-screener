@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle (magnifying glass lens) -->
+  <circle cx="40" cy="40" r="28" fill="none" stroke="#1f77b4" stroke-width="5"/>
+
+  <!-- Handle -->
+  <line x1="60" y1="60" x2="82" y2="82" stroke="#1f77b4" stroke-width="5" stroke-linecap="round"/>
+</svg>

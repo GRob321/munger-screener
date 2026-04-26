@@ -3,6 +3,7 @@ import sys
 import json
 from pathlib import Path
 import pandas as pd
+from utils import show_feedback_form
 from datetime import datetime
 
 # Add parent directory to path to import screener
@@ -416,3 +417,6 @@ with tab_screen:
                         st.dataframe(df_wait, use_container_width=True, hide_index=True)
                     else:
                         st.markdown("*None in this zone.*")
+
+# Feedback form
+show_feedback_form()

@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 from pathlib import Path
+from utils import show_feedback_form
 
 st.set_page_config(
     page_title="Backtest Results",
@@ -147,3 +148,6 @@ st.markdown("""
     </small>
 </div>
 """, unsafe_allow_html=True)
+
+# Feedback form
+show_feedback_form()

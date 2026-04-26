@@ -1,4 +1,5 @@
 import streamlit as st
+from utils import show_feedback_form
 
 st.set_page_config(
     page_title="Watchlist",
@@ -36,3 +37,6 @@ st.markdown("""
 
 *Check back soon!*
 """)
+
+# Feedback form
+show_feedback_form()

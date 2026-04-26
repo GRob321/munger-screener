@@ -1,4 +1,5 @@
 import streamlit as st
+from utils import show_feedback_form
 
 st.set_page_config(
     page_title="Portfolio Tracker",
@@ -40,3 +41,6 @@ with the strategy's signals, so you know when to hold and when to rebalance.
 
 *Check back soon!*
 """)
+
+# Feedback form
+show_feedback_form()

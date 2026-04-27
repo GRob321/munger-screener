@@ -17,11 +17,13 @@ The 200-week MA works because:
 
 ## Introducing the Munger 200-Week Screener
 
-I built a tool to automate this. Enter any ticker, and it tells you:
+I built a tool to automate this. The screener works two ways:
 
-- Is this a quality company? (fundamental analysis)
-- Where does it stand relative to its 200-week moving average?
-- Should you buy, wait, or avoid?
+**Single Stock Analysis**
+Enter any ticker and get a complete picture: Is this a quality company? Where does it stand relative to its 200-week moving average? Should you buy, watch, or wait?
+
+**Full S&P 500 Scan**
+Run the quality filter across all 500 companies in the S&P 500. See which stocks are in the BUY zone (at or below their 200-week MA), the WATCH zone (20% above), or the WAIT zone (too expensive right now). Perfect for finding your next opportunity across the entire index.
 
 The goal is simple: take Munger's principle and make it accessible. No complex models. No market timing. Just quality + price discipline.
 

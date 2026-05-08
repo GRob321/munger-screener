@@ -101,20 +101,38 @@ tab_single, tab_screen = st.tabs(["Single Stock", "Full S&P 500 Screen"])
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 1: Single Stock Analysis
 with tab_single:
-    col1, col2 = st.columns([3, 1])
+    st.markdown("### Search Options")
+    col1, col2 = st.columns(2)
 
+    # Option 1: S&P 500 dropdown
     with col1:
+        st.markdown("**S&P 500 Stocks**")
         ticker_map = build_company_dropdown_mapping()
         selected = st.selectbox(
             "Search by company name or ticker",
             list(ticker_map.keys()),
-            placeholder="e.g., Microsoft (MSFT) or Apple (AAPL)",
+            placeholder="e.g., Microsoft (MSFT)",
             label_visibility="collapsed",
-            index=None
+            index=None,
+            key="sp500_select"
         )
-        # Get ticker from mapping
         ticker_input = ticker_map.get(selected, "") if selected else ""
 
+    # Option 2: Any ticker
+    with col2:
+        st.markdown("**Any Ticker**")
+        ticker_input_manual = st.text_input(
+            "Enter any stock ticker",
+            placeholder="e.g., CRWV, NVDA",
+            label_visibility="collapsed",
+            key="any_ticker"
+        ).upper()
+        # Use manual input if provided, otherwise use dropdown selection
+        ticker_input = ticker_input_manual if ticker_input_manual else ticker_input
+
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.write("")  # spacing
     with col2:
         analyse_btn = st.button("Analyze", use_container_width=True)
 

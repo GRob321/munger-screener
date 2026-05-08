@@ -142,13 +142,13 @@ with tab_single:
             _, fund = fetch_one_fundamental(ticker_input)
 
             if not fund:
-                st.error(f"Could not fetch data for {ticker_input}. Check ticker symbol.")
+                st.error(f"❌ Could not fetch fundamentals for {ticker_input}. Check ticker symbol or try another stock.")
             else:
                 # Price + 200-week MA
                 ma_data = fetch_prices_and_ma([ticker_input])
 
                 if ticker_input not in ma_data:
-                    st.error(f"Could not fetch price data for {ticker_input}.")
+                    st.error(f"❌ Could not calculate 200-week MA for {ticker_input}.\n\n**This usually means:**\n- The stock is too new (IPO'd in last ~3 years)\n- Insufficient price history available\n\nTry an established stock with longer trading history.")
                 else:
                     ma = ma_data[ticker_input]
                     pct = ma["pct_above"]

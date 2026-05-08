@@ -123,7 +123,7 @@ with tab_single:
         st.markdown("**Any Ticker**")
         ticker_input_manual = st.text_input(
             "Enter any stock ticker",
-            placeholder="e.g., CRWV, NVDA",
+            placeholder="e.g., TSLA, NVDA",
             label_visibility="collapsed",
             key="any_ticker"
         ).upper()
